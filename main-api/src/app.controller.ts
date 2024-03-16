@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
+import { AiAnalysisLogModel } from './entity/aiAnalysisLog.entity';
 
 @Controller()
 export class AppController {
@@ -10,7 +11,7 @@ export class AppController {
   ) {}
 
   @Get('/all-results')
-  async getAllResults(): Promise<any> {
+  async getAllResults(): Promise<AiAnalysisLogModel[]> {
     return await this.prisma.aiAnalysisLog.findMany();
   }
 }
