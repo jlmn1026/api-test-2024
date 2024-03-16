@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  backend:
+    user: "node:node"
+    ports:
+      - "3000:3000"
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile.backend
+    environment:
+      HIST: /memo/.bash_history
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: develop
+      DB_PASSWORD: password
+    links:
+      - mysql
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.gitconfig:/home/node/.gitconfig
+      - /workspace/api-test/main-api/node_modules
+      - ../:/workspace/api-test:cached
+      - main-api-memo:/memo
+  mysql:
+    image: mysql/mysql-server:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: develop
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: public
+    command:
+      - mysqld
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_ja_0900_as_cs_ks
+volumes:
+  mysql:
+    driver: local
+  main-api-memo:
+    external: true

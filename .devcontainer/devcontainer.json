@@ -1,0 +1,28 @@
+{
+  "name": "backend-devcontainer",
+  "dockerComposeFile": "./docker-compose.yml",
+
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "Prisma.prisma",
+        "ZixuanChen.vitest-explorer",
+        "42Crunch.vscode-openapi",
+        "streetsidesoftware.code-spell-checker",
+        "editorconfig.editorconfig",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "github.copilot",
+        "ms-ceintl.vscode-language-pack-ja"
+      ]
+    }
+  },
+
+  "remoteUser": "node",
+  "service": "backend",
+  "workspaceFolder": "/workspace/api-test",
+  "postCreateCommand": ".devcontainer/postCreateCommand.sh"
+}
