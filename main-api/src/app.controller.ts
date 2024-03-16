@@ -1,8 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
-import { AiAnalysisLogModel } from './entity/aiAnalysisLog.entity';
+import { AiAnalysisLogEntity } from './entity/aiAnalysisLog.entity';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('app')
 @Controller()
 export class AppController {
   constructor(
@@ -11,7 +13,8 @@ export class AppController {
   ) {}
 
   @Get('/all-results')
-  async getAllResults(): Promise<AiAnalysisLogModel[]> {
+  @ApiResponse({ status: 200, type: [AiAnalysisLogEntity] })
+  async getAllResults(): Promise<AiAnalysisLogEntity[]> {
     return await this.prisma.aiAnalysisLog.findMany();
   }
 }

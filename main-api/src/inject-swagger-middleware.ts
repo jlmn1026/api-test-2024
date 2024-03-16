@@ -30,7 +30,8 @@ function sortByKey<T>(obj: T | undefined, key: string): void {
 export default function injectSwaggerMiddleware(
   nestApp: INestApplication,
 ): void {
-  const isLocal = process.env.NODE_ENV === 'development';
+  const isLocal =
+    !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
   if (!isLocal) {
     return;
   }
@@ -65,10 +66,7 @@ export default function injectSwaggerMiddleware(
   sortByKey(document, 'paths');
 
   SwaggerModule.setup('api', nestApp, document);
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
   writeFileSync('swagger.yml', dump(document, {}));
 
   register.clear();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-  nestApp.use(swStats.getMiddleware({ swaggerSpec: document }));
 }

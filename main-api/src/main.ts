@@ -1,3 +1,3 @@
 import { bootstrapNest } from './bootstrap';
 
-bootstrapNest();
+void bootstrapNest();

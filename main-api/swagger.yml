@@ -1,0 +1,73 @@
+openapi: 3.0.0
+paths:
+  /all-results:
+    get:
+      operationId: AppController_getAllResults
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AiAnalysisLogEntity'
+      tags:
+        - app
+info:
+  title: backend API
+  description: backend API description
+  version: '1.0'
+  contact: {}
+tags:
+  - name: backend
+    description: ''
+servers: []
+components:
+  securitySchemes:
+    jwt:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+      name: jwt
+      description: Enter JWT token
+      in: header
+  schemas:
+    AiAnalysisLogEntity:
+      type: object
+      properties:
+        class:
+          type: string
+          nullable: true
+        confidence:
+          type: number
+          nullable: true
+        id:
+          type: number
+        imagePath:
+          type: string
+          nullable: true
+        message:
+          type: string
+          nullable: true
+        requestTimestamp:
+          format: date-time
+          type: string
+          nullable: true
+        responseTimestamp:
+          format: date-time
+          type: string
+          nullable: true
+        success:
+          type: string
+          nullable: true
+      required:
+        - class
+        - confidence
+        - id
+        - imagePath
+        - message
+        - requestTimestamp
+        - responseTimestamp
+        - success
