@@ -1,5 +1,20 @@
 openapi: 3.0.0
 paths:
+  /all-images:
+    get:
+      operationId: AppController_getAllImages
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetImageResponse'
+      tags: &ref_0
+        - app
   /all-results:
     get:
       operationId: AppController_getAllResults
@@ -13,8 +28,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AiAnalysisLogEntity'
-      tags:
-        - app
+      tags: *ref_0
 info:
   title: backend API
   description: backend API description
@@ -71,3 +85,13 @@ components:
         - requestTimestamp
         - responseTimestamp
         - success
+    GetImageResponse:
+      type: object
+      properties:
+        filename:
+          type: string
+        imageBase64:
+          type: string
+      required:
+        - filename
+        - imageBase64

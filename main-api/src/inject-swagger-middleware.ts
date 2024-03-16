@@ -4,7 +4,6 @@ import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { dump } from 'js-yaml';
 import { register } from 'prom-client';
-import swStats from 'swagger-stats';
 
 function sortByKey<T>(obj: T | undefined, key: string): void {
   if (obj) {
