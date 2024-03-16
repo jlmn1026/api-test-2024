@@ -81,21 +81,21 @@ export interface AiAnalysisLogEntity {
 /**
  * 
  * @export
- * @interface GetImageResponse
+ * @interface ImageEntity
  */
-export interface GetImageResponse {
+export interface ImageEntity {
+    /**
+     * 
+     * @type {object}
+     * @memberof ImageEntity
+     */
+    'data': object | null;
     /**
      * 
      * @type {string}
-     * @memberof GetImageResponse
+     * @memberof ImageEntity
      */
-    'filename': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof GetImageResponse
-     */
-    'imageBase64': string;
+    'filePath': string | null;
 }
 /**
  * 
@@ -138,11 +138,15 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
     return {
         /**
          * 
+         * @param {string} filename 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetAllImages: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/all-images`;
+        appControllerGetImage: async (filename: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'filename' is not null or undefined
+            assertParamExists('appControllerGetImage', 'filename', filename)
+            const localVarPath = `/image/{filename}`
+                .replace(`{${"filename"}}`, encodeURIComponent(String(filename)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -241,13 +245,14 @@ export const AppApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} filename 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetAllImages(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<GetImageResponse>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerGetAllImages(options);
+        async appControllerGetImage(filename: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ImageEntity>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerGetImage(filename, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AppApi.appControllerGetAllImages']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['AppApi.appControllerGetImage']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -285,11 +290,12 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
     return {
         /**
          * 
+         * @param {string} filename 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetAllImages(options?: any): AxiosPromise<Array<GetImageResponse>> {
-            return localVarFp.appControllerGetAllImages(options).then((request) => request(axios, basePath));
+        appControllerGetImage(filename: string, options?: any): AxiosPromise<ImageEntity> {
+            return localVarFp.appControllerGetImage(filename, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -320,12 +326,13 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
 export class AppApi extends BaseAPI {
     /**
      * 
+     * @param {string} filename 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AppApi
      */
-    public appControllerGetAllImages(options?: RawAxiosRequestConfig) {
-        return AppApiFp(this.configuration).appControllerGetAllImages(options).then((request) => request(this.axios, this.basePath));
+    public appControllerGetImage(filename: string, options?: RawAxiosRequestConfig) {
+        return AppApiFp(this.configuration).appControllerGetImage(filename, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

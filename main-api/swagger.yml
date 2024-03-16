@@ -1,18 +1,21 @@
 openapi: 3.0.0
 paths:
-  /all-images:
+  /image/{filename}:
     get:
-      operationId: AppController_getAllImages
-      parameters: []
+      operationId: AppController_getImage
+      parameters:
+        - name: filename
+          required: true
+          in: path
+          schema:
+            type: string
       responses:
         '200':
           description: ''
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GetImageResponse'
+                $ref: '#/components/schemas/ImageEntity'
       tags: &ref_0
         - app
   /latest-results:
@@ -103,16 +106,18 @@ components:
         - requestTimestamp
         - responseTimestamp
         - success
-    GetImageResponse:
+    ImageEntity:
       type: object
       properties:
-        filename:
+        data:
           type: string
-        imageBase64:
+          nullable: true
+        filePath:
           type: string
+          nullable: true
       required:
-        - filename
-        - imageBase64
+        - data
+        - filePath
     SaveAndAnalysisImageRequest:
       type: object
       properties:

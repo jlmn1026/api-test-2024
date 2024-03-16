@@ -21,7 +21,6 @@ model AiAnalysisLog {
 }
 
 model Images {
-  id       Int    @id @default(autoincrement())
-  filePath String @map("file_path") @db.VarChar(255)
+  filePath String @id @default(uuid()) @map("file_path") @db.Char(36)
   data     Bytes  @map("data")
 }

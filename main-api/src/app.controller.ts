@@ -1,16 +1,15 @@
-import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { PrismaService } from './prisma/prisma.service';
 import { AiAnalysisLogEntity } from './entity/aiAnalysisLog.entity';
 import { ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
-import * as fs from 'fs';
-import * as path from 'path';
+
 import {
-  GetImageResponse,
   SaveAndAnalysisImageRequest,
   SaveAndAnalysisImageResponse,
 } from './app.dto';
+import { ImageEntity } from './entity/image.entity';
 
 @ApiTags('app')
 @Controller()
@@ -71,17 +70,18 @@ export class AppController {
     };
   }
 
-  @Get('/all-images')
-  @ApiResponse({ status: 200, type: [GetImageResponse] })
-  async getAllImages(): Promise<GetImageResponse[]> {
-    return ['A.png', 'B.png', 'C.png'].map((filename) => {
-      const imagePath = path.resolve(`../main-api/images/${filename}`);
-      const image = fs.readFileSync(imagePath);
-      const imageBase64 = Buffer.from(image).toString('base64');
-      return {
-        filename,
-        imageBase64,
-      };
+  @Get('/image/:filename')
+  @ApiResponse({ status: 200, type: ImageEntity })
+  async getImage(@Param('filename') filename: string): Promise<ImageEntity> {
+    const img = await this.prisma.images.findFirst({
+      where: {
+        filePath: filename,
+      },
     });
+
+    return {
+      ...img,
+      data: img?.data.toString('base64'),
+    };
   }
 }
