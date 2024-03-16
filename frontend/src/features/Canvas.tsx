@@ -1,6 +1,5 @@
 import { useRef } from "react";
-
-// 描画処理
+import { appApi } from "../api/apiClient";
 
 const Canvas = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -53,17 +52,29 @@ const Canvas = () => {
     mouseY = y;
   };
 
+  const saveAndAnalysis = async () => {
+    const imgData = canvasRef.current?.toDataURL("image/png");
+    if (imgData) {
+      await appApi.appControllerSaveAndAnalysisImage({
+        imgData,
+      });
+    }
+  };
+
   return (
-    <canvas
-      onMouseDown={onClick}
-      onMouseMove={onMove}
-      onMouseUp={drawEnd}
-      onMouseOut={drawEnd}
-      ref={canvasRef}
-      width={`100px`}
-      height={`100px`}
-      style={{ background: "#fff" }}
-    />
+    <>
+      <canvas
+        onMouseDown={onClick}
+        onMouseMove={onMove}
+        onMouseUp={drawEnd}
+        onMouseOut={drawEnd}
+        ref={canvasRef}
+        width={`100px`}
+        height={`100px`}
+        style={{ background: "#fff" }}
+      />
+      <button onClick={saveAndAnalysis}>Save＆Analysis</button>
+    </>
   );
 };
 

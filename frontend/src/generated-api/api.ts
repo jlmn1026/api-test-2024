@@ -97,6 +97,38 @@ export interface GetImageResponse {
      */
     'imageBase64': string;
 }
+/**
+ * 
+ * @export
+ * @interface SaveAndAnalysisImageRequest
+ */
+export interface SaveAndAnalysisImageRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveAndAnalysisImageRequest
+     */
+    'imgData': string;
+}
+/**
+ * 
+ * @export
+ * @interface SaveAndAnalysisImageResponse
+ */
+export interface SaveAndAnalysisImageResponse {
+    /**
+     * 
+     * @type {number}
+     * @memberof SaveAndAnalysisImageResponse
+     */
+    'class': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SaveAndAnalysisImageResponse
+     */
+    'confidence': number;
+}
 
 /**
  * AppApi - axios parameter creator
@@ -138,8 +170,8 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetAllResults: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/all-results`;
+        appControllerGetLatestResults: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/latest-results`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -156,6 +188,41 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {SaveAndAnalysisImageRequest} saveAndAnalysisImageRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerSaveAndAnalysisImage: async (saveAndAnalysisImageRequest: SaveAndAnalysisImageRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'saveAndAnalysisImageRequest' is not null or undefined
+            assertParamExists('appControllerSaveAndAnalysisImage', 'saveAndAnalysisImageRequest', saveAndAnalysisImageRequest)
+            const localVarPath = `/save-analysis-image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(saveAndAnalysisImageRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -188,10 +255,22 @@ export const AppApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetAllResults(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AiAnalysisLogEntity>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerGetAllResults(options);
+        async appControllerGetLatestResults(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AiAnalysisLogEntity>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerGetLatestResults(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['AppApi.appControllerGetAllResults']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['AppApi.appControllerGetLatestResults']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {SaveAndAnalysisImageRequest} saveAndAnalysisImageRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async appControllerSaveAndAnalysisImage(saveAndAnalysisImageRequest: SaveAndAnalysisImageRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<SaveAndAnalysisImageResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.appControllerSaveAndAnalysisImage(saveAndAnalysisImageRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AppApi.appControllerSaveAndAnalysisImage']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -217,8 +296,17 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetAllResults(options?: any): AxiosPromise<Array<AiAnalysisLogEntity>> {
-            return localVarFp.appControllerGetAllResults(options).then((request) => request(axios, basePath));
+        appControllerGetLatestResults(options?: any): AxiosPromise<Array<AiAnalysisLogEntity>> {
+            return localVarFp.appControllerGetLatestResults(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {SaveAndAnalysisImageRequest} saveAndAnalysisImageRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        appControllerSaveAndAnalysisImage(saveAndAnalysisImageRequest: SaveAndAnalysisImageRequest, options?: any): AxiosPromise<SaveAndAnalysisImageResponse> {
+            return localVarFp.appControllerSaveAndAnalysisImage(saveAndAnalysisImageRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -246,8 +334,19 @@ export class AppApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AppApi
      */
-    public appControllerGetAllResults(options?: RawAxiosRequestConfig) {
-        return AppApiFp(this.configuration).appControllerGetAllResults(options).then((request) => request(this.axios, this.basePath));
+    public appControllerGetLatestResults(options?: RawAxiosRequestConfig) {
+        return AppApiFp(this.configuration).appControllerGetLatestResults(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SaveAndAnalysisImageRequest} saveAndAnalysisImageRequest 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof AppApi
+     */
+    public appControllerSaveAndAnalysisImage(saveAndAnalysisImageRequest: SaveAndAnalysisImageRequest, options?: RawAxiosRequestConfig) {
+        return AppApiFp(this.configuration).appControllerSaveAndAnalysisImage(saveAndAnalysisImageRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

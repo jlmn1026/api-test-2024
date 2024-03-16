@@ -15,9 +15,9 @@ paths:
                   $ref: '#/components/schemas/GetImageResponse'
       tags: &ref_0
         - app
-  /all-results:
+  /latest-results:
     get:
-      operationId: AppController_getAllResults
+      operationId: AppController_getLatestResults
       parameters: []
       responses:
         '200':
@@ -28,6 +28,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AiAnalysisLogEntity'
+      tags: *ref_0
+  /save-analysis-image:
+    post:
+      operationId: AppController_saveAndAnalysisImage
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SaveAndAnalysisImageRequest'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaveAndAnalysisImageResponse'
       tags: *ref_0
 info:
   title: backend API
@@ -95,3 +113,20 @@ components:
       required:
         - filename
         - imageBase64
+    SaveAndAnalysisImageRequest:
+      type: object
+      properties:
+        imgData:
+          type: string
+      required:
+        - imgData
+    SaveAndAnalysisImageResponse:
+      type: object
+      properties:
+        class:
+          type: number
+        confidence:
+          type: number
+      required:
+        - class
+        - confidence

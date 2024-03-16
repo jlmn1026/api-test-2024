@@ -19,3 +19,9 @@ model AiAnalysisLog {
 
   @@map("ai_analysis_log")
 }
+
+model Images {
+  id       Int    @id @default(autoincrement())
+  filePath String @map("file_path") @db.VarChar(255)
+  data     Bytes  @map("data")
+}

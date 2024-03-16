@@ -44,6 +44,9 @@ dependencies:
   swagger-stats:
     specifier: ^0.99.7
     version: 0.99.7(prom-client@15.1.0)
+  uuid:
+    specifier: ^9.0.1
+    version: 9.0.1
 
 devDependencies:
   '@nestjs/cli':
