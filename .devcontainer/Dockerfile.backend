@@ -40,7 +40,7 @@ RUN su node -c "npm install -g pnpm @nestjs/cli aws-cdk"
 
 USER 1000:1000
 
-WORKDIR /workspace/api-test/main-api
+WORKDIR /workspace/api-test-2024/
 
 # CMD ["sh", "/run-vite.sh"]
 ENTRYPOINT ["/bin/sh", "-c", "sleep infinity"]

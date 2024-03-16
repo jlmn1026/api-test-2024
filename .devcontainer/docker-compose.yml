@@ -19,8 +19,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - $HOME/.gitconfig:/home/node/.gitconfig
-      - /workspace/api-test/main-api/node_modules
-      - ../:/workspace/api-test:cached
+      - /workspace/api-test-2024/main-api/node_modules
+      - ../:/workspace/api-test-2024:cached
       - main-api-memo:/memo
   mysql:
     image: mysql/mysql-server:8.0

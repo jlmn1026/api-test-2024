@@ -23,6 +23,6 @@
 
   "remoteUser": "node",
   "service": "backend",
-  "workspaceFolder": "/workspace/api-test",
+  "workspaceFolder": "/workspace/api-test-2024",
   "postCreateCommand": ".devcontainer/postCreateCommand.sh"
 }
