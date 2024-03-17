@@ -21,7 +21,6 @@ services:
       - $HOME/.gitconfig:/home/node/.gitconfig
       - /workspace/api-test-2024/main-api/node_modules
       - ../:/workspace/api-test-2024:cached
-      - main-api-memo:/memo
   mysql:
     image: mysql/mysql-server:8.0
     ports:
@@ -42,5 +41,3 @@ services:
 volumes:
   mysql:
     driver: local
-  main-api-memo:
-    external: true

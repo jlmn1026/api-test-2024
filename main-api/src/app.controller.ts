@@ -54,7 +54,6 @@ export class AppController {
       return res.json();
     });
     const responseTime = new Date();
-    console.log(analysisResult);
     await this.prisma.aiAnalysisLog.create({
       data: {
         class: analysisResult.estimated_data.class,
