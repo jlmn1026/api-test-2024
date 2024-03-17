@@ -27,6 +27,8 @@ const Image = ({ filePath }: Props) => {
 
   return (
     <img
+      width="100px"
+      height="100px"
       src={`data:image/png;base64,${data.data}`}
       style={{ background: "#fff" }}
     />
