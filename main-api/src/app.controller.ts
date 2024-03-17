@@ -51,7 +51,6 @@ export class AppController {
         'Content-Type': 'application/json',
       },
     }).then((res) => {
-      console.log(res);
       return res.json();
     });
     const responseTime = new Date();
@@ -61,7 +60,7 @@ export class AppController {
         class: analysisResult.class,
         confidence: analysisResult.confidence,
         imagePath: filePath,
-        success: analysisResult.success,
+        success: analysisResult.success ? 'success' : 'false',
         message: analysisResult.message,
         requestTimestamp: requestTime,
         responseTimestamp: responseTime,

@@ -13,7 +13,7 @@ function App() {
       <div>
         <Canvas />
       </div>
-      <h2>Result</h2>
+      <h2>Latest 10 Result</h2>
       <Results />
     </div>
   );
