@@ -12,6 +12,7 @@
 # 動作確認
 
 1. devContainer の起動
+
    vscode から container を open する(左下をクリックし、メニューから Reopen in Container を選択)
 
 2. API サーバーの準備と起動
@@ -54,7 +55,7 @@ pnpm dev
     http://localhost:5173/  
    Draw a picture の下にある canvas にマウスで絵を描き、「Save&Analysis」をクリックする
 
-# 構成
+# 構成(使用言語やフレームワーク)
 
 ## Backend
 
