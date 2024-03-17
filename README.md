@@ -25,6 +25,7 @@ cd main-api
 ```
 cp .env.example .env
 pnpm dlx prisma generate
+pnpm dlx prisma migrate dev
 ```
 
 サーバー起動
