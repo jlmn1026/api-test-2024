@@ -49,3 +49,12 @@ export class AiAnalysisLogEntity {
   })
   responseTimestamp?: Date;
 }
+
+export type AnalysisResult = {
+  success: string;
+  message: string;
+  estimated_data: {
+    class: number;
+    confidence: number;
+  };
+};

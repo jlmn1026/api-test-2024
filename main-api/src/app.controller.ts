@@ -1,6 +1,5 @@
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import { PrismaService } from './prisma/prisma.service';
 import { AiAnalysisLogEntity } from './entity/aiAnalysisLog.entity';
 import { ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
@@ -10,20 +9,12 @@ import { ImageEntity } from './entity/image.entity';
 @ApiTags('app')
 @Controller()
 export class AppController {
-  constructor(
-    private readonly prisma: PrismaService,
-    private readonly appService: AppService,
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
   @Get('/latest-results')
   @ApiResponse({ status: 200, type: [AiAnalysisLogEntity] })
   async getLatestResults(): Promise<AiAnalysisLogEntity[]> {
-    return await this.prisma.aiAnalysisLog.findMany({
-      take: 10,
-      orderBy: {
-        requestTimestamp: 'desc',
-      },
-    });
+    return this.appService.getResultList();
   }
 
   @Post('/save-analysis-image')
@@ -36,13 +27,7 @@ export class AppController {
     const requestTime = new Date();
     const filePath = uuidv4();
 
-    const base64Data = body.imgData.replace(/^data:image\/\w+;base64,/, '');
-    await this.prisma.images.create({
-      data: {
-        filePath,
-        data: Buffer.from(base64Data, 'base64'),
-      },
-    });
+    await this.appService.createImage(filePath, body.imgData);
 
     const analysisResult = await fetch('http://localhost:8000/api/', {
       method: 'POST',
@@ -53,32 +38,18 @@ export class AppController {
     }).then((res) => {
       return res.json();
     });
-    const responseTime = new Date();
-    await this.prisma.aiAnalysisLog.create({
-      data: {
-        class: analysisResult.estimated_data.class,
-        confidence: analysisResult.estimated_data.confidence,
-        imagePath: filePath,
-        success: analysisResult.success ? 'success' : 'false',
-        message: analysisResult.message,
-        requestTimestamp: requestTime,
-        responseTimestamp: responseTime,
-      },
-    });
+
+    await this.appService.createAnalysisLog(
+      filePath,
+      analysisResult,
+      requestTime,
+      new Date(),
+    );
   }
 
   @Get('/image/:filename')
   @ApiResponse({ status: 200, type: ImageEntity })
   async getImage(@Param('filename') filename: string): Promise<ImageEntity> {
-    const img = await this.prisma.images.findFirst({
-      where: {
-        filePath: filename,
-      },
-    });
-
-    return {
-      ...img,
-      data: img?.data.toString('base64'),
-    };
+    return await this.appService.getImage(filename);
   }
 }
