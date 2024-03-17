@@ -29,9 +29,15 @@ dependencies:
   class-validator:
     specifier: ^0.14.1
     version: 0.14.1
+  install:
+    specifier: ^0.13.0
+    version: 0.13.0
   js-yaml:
     specifier: ^4.1.0
     version: 4.1.0
+  node-fetch:
+    specifier: ^2.7.0
+    version: 2.7.0
   prom-client:
     specifier: ^15.1.0
     version: 15.1.0
@@ -3582,6 +3588,11 @@ packages:
       strip-ansi: 6.0.1
       wrap-ansi: 6.2.0
     dev: true
+
+  /install@0.13.0:
+    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
+    engines: {node: '>= 0.10'}
+    dev: false
 
   /interpret@1.4.0:
     resolution: {integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==}

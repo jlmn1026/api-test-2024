@@ -45,10 +45,6 @@ paths:
       responses:
         '200':
           description: ''
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SaveAndAnalysisImageResponse'
       tags: *ref_0
 info:
   title: backend API
@@ -125,13 +121,3 @@ components:
           type: string
       required:
         - imgData
-    SaveAndAnalysisImageResponse:
-      type: object
-      properties:
-        class:
-          type: number
-        confidence:
-          type: number
-      required:
-        - class
-        - confidence

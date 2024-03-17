@@ -4,11 +4,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { AiAnalysisLogEntity } from './entity/aiAnalysisLog.entity';
 import { ApiResponse, ApiTags, ApiBody } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
-
-import {
-  SaveAndAnalysisImageRequest,
-  SaveAndAnalysisImageResponse,
-} from './app.dto';
+import { SaveAndAnalysisImageRequest } from './app.dto';
 import { ImageEntity } from './entity/image.entity';
 
 @ApiTags('app')
@@ -32,15 +28,15 @@ export class AppController {
 
   @Post('/save-analysis-image')
   @ApiBody({ type: SaveAndAnalysisImageRequest })
-  @ApiResponse({ status: 200, type: SaveAndAnalysisImageResponse })
+  @ApiResponse({ status: 200 })
   @HttpCode(201)
   async saveAndAnalysisImage(
     @Body() body: SaveAndAnalysisImageRequest,
-  ): Promise<SaveAndAnalysisImageResponse> {
+  ): Promise<void> {
     const requestTime = new Date();
     const filePath = uuidv4();
-    const base64Data = body.imgData.replace(/^data:image\/\w+;base64,/, '');
 
+    const base64Data = body.imgData.replace(/^data:image\/\w+;base64,/, '');
     await this.prisma.images.create({
       data: {
         filePath,
@@ -48,26 +44,29 @@ export class AppController {
       },
     });
 
-    // TODO: 解析API
-
+    const analysisResult = await fetch('http://localhost:8000/api/', {
+      method: 'POST',
+      body: JSON.stringify({ image_path: filePath }), // S3のバケットパスなどを想定
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      console.log(res);
+      return res.json();
+    });
     const responseTime = new Date();
 
     await this.prisma.aiAnalysisLog.create({
       data: {
-        class: 1,
-        confidence: 0.9,
+        class: analysisResult.class,
+        confidence: analysisResult.confidence,
         imagePath: filePath,
-        success: 'success',
-        message: 'message',
+        success: analysisResult.success,
+        message: analysisResult.message,
         requestTimestamp: requestTime,
         responseTimestamp: responseTime,
       },
     });
-
-    return {
-      class: 1,
-      confidence: 0.9,
-    };
   }
 
   @Get('/image/:filename')
