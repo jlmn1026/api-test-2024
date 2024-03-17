@@ -37,13 +37,45 @@ pnpm start:debug
 3. モック API サーバーの起動
 
 ```
-cd ../analysisImageMock
+cd ./analysisImageMock
 python3 manage.py runserver
 ```
 
 4. フロントエンドサーバーの起動
 
 ```
-cd ../frontend
+cd ./frontend
 pnpm dev
+```
+
+5. アクセス
+
+   下記へアクセスする。  
+    http://localhost:5173/  
+   Draw a picture の下にある canvas にマウスで絵を描き、「Save&Analysis」をクリックする
+
+# 構成
+
+## Backend
+
+```
+- typescript
+- Nestjs
+- prisma
+- MySQL
+```
+
+## Frontend
+
+```
+- typescript
+- vite
+- React
+```
+
+## Mock API
+
+```
+- Python
+- Django
 ```
