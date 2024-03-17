@@ -6,12 +6,9 @@ type Props = {
 };
 
 const Image = ({ filePath }: Props) => {
-  const { data, error, isLoading } = useSWR(
-    ["latest-results", filePath],
-    async () => {
-      if (filePath) return (await appApi.appControllerGetImage(filePath)).data;
-    }
-  );
+  const { data, error, isLoading } = useSWR(["image", filePath], async () => {
+    if (filePath) return (await appApi.appControllerGetImage(filePath)).data;
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;

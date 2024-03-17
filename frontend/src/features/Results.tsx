@@ -21,13 +21,13 @@ const Results = () => {
   }
 
   return data.map((result) => {
-    console.log(result);
     if (!result.responseTimestamp) {
       return <div>InCorrect Data.</div>;
     }
 
     return (
       <div
+        key={result.id}
         style={{
           padding: "8px",
           margin: "8px",
