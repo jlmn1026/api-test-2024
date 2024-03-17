@@ -14,11 +14,23 @@
 1. devContainer の起動
    vscode から container を open する(左下をクリックし、メニューから Reopen in Container を選択)
 
-2. API サーバーの起動
+2. API サーバーの準備と起動
 
 ```
 cd main-api
-pnpm dev
+```
+
+※初回のみ
+
+```
+cp .env.example .env
+pnpm dlx prisma generate
+```
+
+サーバー起動
+
+```
+pnpm start:debug
 ```
 
 3. モック API サーバーの起動
